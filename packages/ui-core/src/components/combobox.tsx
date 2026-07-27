@@ -22,6 +22,8 @@ import {
 export interface ComboboxOption {
   value: string
   label: string
+  /** Compact text shown on the trigger; falls back to `label`. */
+  selectedLabel?: string
   flag?: string
 }
 
@@ -34,6 +36,8 @@ interface ComboboxProps {
   emptyText?: string
   className?: string
   disabled?: boolean
+  /** Minimum popover width in px (useful when the trigger is narrow). */
+  popoverMinWidth?: number
 }
 
 export function Combobox({
@@ -45,6 +49,7 @@ export function Combobox({
   emptyText = "No option found.",
   className,
   disabled = false,
+  popoverMinWidth,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
@@ -73,6 +78,13 @@ export function Combobox({
     return () => window.removeEventListener("resize", updateWidth)
   }, [updateWidth])
 
+  const popoverWidth = React.useMemo(() => {
+    if (popoverMinWidth != null) {
+      return Math.max(triggerWidth ?? 0, popoverMinWidth)
+    }
+    return triggerWidth
+  }, [popoverMinWidth, triggerWidth])
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -95,10 +107,12 @@ export function Combobox({
           {selectedOption ? (
             <div className="flex min-w-0 flex-1 items-center gap-2">
               {selectedOption.flag && <span className="shrink-0">{selectedOption.flag}</span>}
-              <span className="truncate">{selectedOption.label}</span>
+              <span className="truncate">
+                {selectedOption.selectedLabel ?? selectedOption.label}
+              </span>
             </div>
           ) : (
-            <span className="text-muted-foreground">{placeholder}</span>
+            <span className="truncate text-muted-foreground">{placeholder}</span>
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -106,7 +120,7 @@ export function Combobox({
       <PopoverContent 
         className="p-0" 
         align="start"
-        style={{ width: triggerWidth ? `${triggerWidth}px` : undefined }}
+        style={{ width: popoverWidth ? `${popoverWidth}px` : undefined }}
         onOpenAutoFocus={(e) => {
           // Prevent auto-focus on popover, let Command handle it
           e.preventDefault()
@@ -114,7 +128,10 @@ export function Combobox({
       >
         <Command>
           <CommandInput placeholder={searchPlaceholder} autoFocus />
-          <CommandList>
+          <CommandList
+            className="max-h-64 overflow-y-auto"
+            onWheel={(e) => e.stopPropagation()}
+          >
             <CommandEmpty>{emptyText}</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
@@ -143,9 +160,9 @@ export function Combobox({
                       value === option.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <div className="flex items-center gap-2">
-                    {option.flag && <span>{option.flag}</span>}
-                    <span>{option.label}</span>
+                  <div className="flex min-w-0 flex-1 items-center gap-2">
+                    {option.flag && <span className="shrink-0">{option.flag}</span>}
+                    <span className="truncate">{option.label}</span>
                   </div>
                 </CommandItem>
               ))}
