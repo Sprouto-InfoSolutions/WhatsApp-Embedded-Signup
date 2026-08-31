@@ -20,7 +20,7 @@ export const chatSafeRehypePlugins: NonNullable<StreamdownProps["rehypePlugins"]
         // still blocks javascript:/data: etc. for untrusted chat markdown.
         allowedImagePrefixes: ["*"],
         allowedLinkPrefixes: ["*"],
-        allowedProtocols: ["http", "https", "mailto"],
+        allowedProtocols: ["http", "https", "mailto", "tel"],
         allowDataImages: false,
       },
     ],
