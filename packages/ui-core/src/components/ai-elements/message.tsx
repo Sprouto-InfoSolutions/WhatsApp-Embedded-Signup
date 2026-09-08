@@ -342,10 +342,16 @@ export const MessageBranchPage = ({
 export type MessageResponseProps = ComponentProps<typeof Streamdown>;
 
 export const MessageResponse = memo(
-  ({ className, rehypePlugins, ...props }: MessageResponseProps) => (
+  ({
+    className,
+    rehypePlugins,
+    mode = "static",
+    ...props
+  }: MessageResponseProps) => (
     <Streamdown
       {...props}
-      // Omit rehype-raw; sanitize + harden http(s)/mailto only (see chat-safe-rehype)
+      mode={mode}
+      // Omit rehype-raw; sanitize + harden http(s)/mailto/tel (see chat-safe-rehype)
       rehypePlugins={rehypePlugins ?? chatSafeRehypePlugins}
       linkSafety={{
         enabled: true,
@@ -358,7 +364,8 @@ export const MessageResponse = memo(
       )}
     />
   ),
-  (prevProps, nextProps) => prevProps.children === nextProps.children,
+  (prevProps, nextProps) =>
+    prevProps.children === nextProps.children && prevProps.mode === nextProps.mode,
 );
 
 MessageResponse.displayName = "MessageResponse";
