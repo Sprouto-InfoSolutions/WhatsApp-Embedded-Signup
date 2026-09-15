@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from "./components/collapsible";
 import { cn } from "../../lib/utils";
-import type { ToolUIPart } from "ai";
+import type { DynamicToolUIPart, ToolUIPart } from "ai";
 import {
   CheckCircleIcon,
   ChevronDownIcon,
@@ -31,13 +31,13 @@ export const Tool = ({ className, ...props }: ToolProps) => (
 
 export type ToolHeaderProps = {
   title?: string;
-  type: ToolUIPart["type"];
-  state: ToolUIPart["state"];
+  type: ToolUIPart["type"] | DynamicToolUIPart["type"];
+  state: ToolUIPart["state"] | DynamicToolUIPart["state"];
   className?: string;
 };
 
-const getStatusBadge = (status: ToolUIPart["state"]) => {
-  const labels: Record<ToolUIPart["state"], string> = {
+const getStatusBadge = (status: ToolHeaderProps["state"]) => {
+  const labels: Record<ToolHeaderProps["state"], string> = {
     "input-streaming": "Pending",
     "input-available": "Running",
     "approval-requested": "Awaiting Approval",
@@ -47,7 +47,7 @@ const getStatusBadge = (status: ToolUIPart["state"]) => {
     "output-denied": "Denied",
   };
 
-  const icons: Record<ToolUIPart["state"], ReactNode> = {
+  const icons: Record<ToolHeaderProps["state"], ReactNode> = {
     "input-streaming": <CircleIcon className="size-4" />,
     "input-available": <ClockIcon className="size-4 animate-pulse" />,
     "approval-requested": <ClockIcon className="size-4 text-yellow-600" />,
@@ -82,7 +82,8 @@ export const ToolHeader = ({
     <div className="flex items-center gap-2">
       <WrenchIcon className="size-4 text-muted-foreground" />
       <span className="font-medium text-sm">
-        {title ?? type.split("-").slice(1).join("-")}
+        {title ??
+          (type === "dynamic-tool" ? "Tool" : type.split("-").slice(1).join("-"))}
       </span>
       {getStatusBadge(state)}
     </div>
