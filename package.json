@@ -17,10 +17,6 @@
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
-    "@workspace/internal-consent": "workspace:*",
-    "@workspace/internal-i18n-config": "workspace:*",
-    "@workspace/internal-seo": "workspace:*",
-    "@workspace/internal-types": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "prettier": "^3.9.5",
     "turbo": "^2.10.4",
