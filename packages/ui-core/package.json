@@ -42,7 +42,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
-    "lucide-react": "^0.475.0",
+    "lucide-react": "^1.76.0",
     "media-chrome": "^4.17.2",
     "motion": "^12.26.2",
     "nanoid": "^5.1.6",
