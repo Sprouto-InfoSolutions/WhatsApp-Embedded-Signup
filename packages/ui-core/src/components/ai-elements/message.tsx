@@ -40,7 +40,7 @@ export const Message = ({
   return (
     <div
       className={cn(
-        "group flex w-full max-w-[95%] gap-2 items-start",
+        "group flex w-full max-w-[95%] gap-2 items-end",
         from === "user" ? "is-user ml-auto flex-row-reverse" : "is-assistant",
         className,
       )}
@@ -77,12 +77,12 @@ export type MessageContentProps = HTMLAttributes<HTMLDivElement>;
 export const MessageContent = ({
   children,
   className,
-  ...props
+  ...props  
 }: MessageContentProps) => (
   <div
     className={cn(
       "is-user:dark flex w-fit max-w-full min-w-0 flex-col gap-2 overflow-hidden text-sm",
-      "group-[.is-user]:ml-auto group-[.is-user]:rounded-2xl group-[.is-user]:rounded-tr-none group-[.is-user]:bg-primary group-[.is-user]:px-2 group-[.is-user]:py-3 group-[.is-user]:text-primary-foreground group-[.is-assistant]:ml-0 group-[.is-assistant]:rounded-2xl group-[.is-assistant]:rounded-tl-none group-[.is-assistant]:bg-(--bg-secondary) group-[.is-assistant]:px-2 group-[.is-assistant]:py-3 group-[.is-user]:[&_button[data-streamdown='link']]:text-primary-foreground group-[.is-user]:[&_button[data-streamdown='link']]:cursor-pointer group-[.is-assistant]:[&_button[data-streamdown='link']]:break-all group-[.is-assistant]:[&_button[data-streamdown='link']]:cursor-pointer",
+      "group-[.is-user]:ml-auto group-[.is-user]:rounded-2xl group-[.is-user]:rounded-ee-none group-[.is-user]:bg-primary group-[.is-user]:px-2 group-[.is-user]:py-3 group-[.is-user]:text-primary-foreground group-[.is-assistant]:ml-0 group-[.is-assistant]:rounded-2xl group-[.is-assistant]:rounded-es-none group-[.is-assistant]:bg-(--bg-secondary) group-[.is-assistant]:px-2 group-[.is-assistant]:py-3 group-[.is-user]:[&_button[data-streamdown='link']]:text-primary-foreground group-[.is-user]:[&_button[data-streamdown='link']]:cursor-pointer group-[.is-assistant]:[&_button[data-streamdown='link']]:break-all group-[.is-assistant]:[&_button[data-streamdown='link']]:cursor-pointer",
       "group-[.is-assistant]:text-foreground",
       className,
     )}
